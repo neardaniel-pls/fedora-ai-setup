@@ -7,19 +7,34 @@ A collection of guides for setting up AI, machine learning, and LLM tools on Fed
 
 ## Overview
 
-This repository contains comprehensive guides for deploying and managing AI/LLM tools on Fedora, including containerized applications, local model management, and web interfaces.
+This repository contains guides for deploying and managing AI/LLM tools on Fedora Linux systems. Currently, it focuses on containerized applications and web interfaces for interacting with large language models.
+
+## Prerequisites
+
+- **Fedora Linux**: This guide is tested on Fedora 42+ but should work on recent versions
+- **Command Line Experience**: Basic familiarity with terminal commands
+- **Sudo Access**: Required for installing packages and managing system services
+- **Podman**: Default container engine on modern Fedora systems (installation instructions provided)
+
+## Project Status
+
+This is an active project that currently focuses on Open Web UI setup. Additional guides for other AI/LLM tools are planned for future releases. Contributions and suggestions are welcome!
 
 ## Contents
 
-- **Container Management**: Podman setup for AI applications
-- **Web Interfaces**: Open Web UI and similar browser-based tools
-- **Local Models**: Ollama setup and management
-- **Model Management**: Hugging Face integration and model pulling
-- **AI Development**: Development environment setup for AI projects
+- **Open Web UI Setup**: Complete guide for setting up Open Web UI with Podman and Ollama integration
+
+## Quick Start
+
+For a quick setup of Open Web UI with local model support:
+
+1. Install Podman: `sudo dnf install podman`
+2. Follow the [Open Web UI Setup Guide](setup/open-web-ui-guide.md)
+3. Access the web interface at `http://localhost:8080`
 
 ## Getting Started
 
-Go to the [setup](setup/) directory and read the guide you want to follow. Each guide contains step-by-step instructions for setting up specific AI/LLM tools on Fedora.
+Go to the [setup](setup/) directory and read the available guide. Each guide contains step-by-step instructions for setting up specific AI/LLM tools on Fedora.
 
 If you prefer to work locally, you can clone the repository:
 ```bash
@@ -30,11 +45,18 @@ cd fedora-ai-setup
 ## Featured Guides
 
 ### Open Web UI with Podman
-Complete guide for setting up Open Web UI in a containerized environment using Podman, with local Ollama integration for model management.
+Complete guide for setting up Open Web UI in a containerized environment using Podman, with local Ollama integration for model management. This guide covers:
+- Podman container setup and management
+- Ollama installation and configuration
+- Model pulling from Hugging Face
+- Troubleshooting common issues
+- Complete uninstallation instructions
 
 ### Future Guides
 Planned content for:
-- Not sure
+- Additional AI/LLM web interfaces
+- Model optimization and management
+- Development environment setup for AI projects
 
 ## Support
 
