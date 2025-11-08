@@ -9,16 +9,6 @@ A collection of guides for setting up AI, machine learning, and LLM tools on Fed
 
 This repository contains comprehensive guides for deploying and managing AI/LLM tools on Fedora, including containerized applications, local model management, and web interfaces.
 
-## Repository Structure
-
-```
-fedora-ai-setup/
-├── setup/
-│   └── open-web-ui-guide.md
-├── README.md
-└── LICENSE
-```
-
 ## Contents
 
 - **Container Management**: Podman setup for AI applications
@@ -29,16 +19,12 @@ fedora-ai-setup/
 
 ## Getting Started
 
-1. Clone the repository:
+Go to the [setup](setup/) directory and read the guide you want to follow. Each guide contains step-by-step instructions for setting up specific AI/LLM tools on Fedora.
+
+If you prefer to work locally, you can clone the repository:
 ```bash
 git clone https://github.com/neardaniel-pls/fedora-ai-setup.git
 cd fedora-ai-setup
-```
-
-2. Choose a setup guide:
-```bash
-ls setup/
-# Run your chosen guide
 ```
 
 ## Featured Guides
@@ -48,18 +34,7 @@ Complete guide for setting up Open Web UI in a containerized environment using P
 
 ### Future Guides
 Planned content for:
-- Local AI development environments
-- Model fine-tuning setups
-- AI toolchain installation
-- Performance optimization for LLM workloads
-
-## Contributing
-
-Contributions are welcome! Please focus on:
-- Container and Podman automation
-- AI/LLM tool integration
-- Performance optimization for AI workloads
-- Security best practices for AI deployments
+- Not sure
 
 ## Support
 
