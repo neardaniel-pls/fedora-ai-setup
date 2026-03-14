@@ -69,6 +69,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Note**: This repository focuses specifically on AI/LLM tooling on Fedora. For general system administration tools, see the companion [fedora-system-setup](https://github.com/neardaniel-pls/fedora-system-setup) repository.
+## Related Projects
 
-**Note**: For practical utility scripts for daily use, see the companion [fedora-user-scripts](https://github.com/neardaniel-pls/fedora-user-scripts) repository.
+Check out these other companion projects:
+
+- **[fedora-system-setup](https://github.com/neardaniel-pls/fedora-system-setup)**: Comprehensive post-installation guide for Fedora Linux systems with essential configurations, repositories, drivers, and applications
+
+- **[fedora-user-scripts](https://github.com/neardaniel-pls/fedora-user-scripts)**: Collection of utility scripts optimized for Fedora Linux systems, focusing on system maintenance, security, and file management
+
+- **[near-whisper](https://github.com/neardaniel-pls/near-whisper)**: Free and open source GUI for local Whisper audio transcription on Fedora Linux systems
