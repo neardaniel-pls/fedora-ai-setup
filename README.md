@@ -58,6 +58,26 @@ Planned content for:
 - Model optimization and management
 - Development environment setup for AI projects
 
+## Documentation
+
+### [Documentation Hub](docs/README.md)
+Guides and references
+
+### [Quick Start Guide](docs/QUICK_START.md)
+Get Open Web UI running in 10 minutes
+
+### [Guides](docs/guides/)
+- [Open Web UI Guide](docs/guides/open-web-ui-guide.md) — Quick reference
+
+### [FAQ](docs/FAQ.md)
+Common questions and troubleshooting
+
+### [Contributing Guide](CONTRIBUTING.md)
+How to contribute
+
+### [Changelog](CHANGELOG.md)
+History of changes
+
 ## Support
 
 - 🐛 [Report Bugs](https://github.com/neardaniel-pls/fedora-ai-setup/issues/new?template=bug_report.md)
