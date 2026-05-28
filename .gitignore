@@ -1,0 +1,30 @@
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Backup/temp files
+*.bak
+*.old
+*.orig
+*.tmp
+*.log
+tmp/
+temp/
+
+# Security
+*.key
+*.pem
+*.crt
+*.p12
+.env
+.secrets/
+
+# Kilo
+.kilo/
