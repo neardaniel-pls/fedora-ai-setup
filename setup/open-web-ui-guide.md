@@ -74,8 +74,10 @@ podman ps | grep open-webui
 
 You should see output like:
 ```
-<container_id>  ghcr.io/open-webui/open-webui:main  ...  0.0.0.0:8080->8080/tcp  open-webui
+<container_id>  ghcr.io/open-webui/open-webui:main  ...  open-webui
 ```
+
+> **Note:** With `--network=host`, port mapping is not shown in the PORTS column. The container binds directly to host port 8080.
 
 ### Step 4: Access Open Web UI
 
@@ -170,7 +172,7 @@ This command will download the specified model and start a chat session in your 
 
 ### Step 9: Connect Open Web UI to Ollama
 
-Open Web UI should automatically detect your local Ollama instance. The container is configured with `--add-host=host.docker.internal:host-gateway`, which allows it to reach Ollama on your host machine.
+Open Web UI should automatically detect your local Ollama instance. Since the container was started with `--network=host`, it shares the host's network namespace and can reach Ollama directly at `127.0.0.1:11434` — no additional host configuration is needed.
 
 1. Ensure Ollama is running: `sudo systemctl start ollama`
 2. In the Open Web UI interface, click **"Select a model"**
@@ -186,7 +188,8 @@ podman exec open-webui curl http://127.0.0.1:11434/api/tags
 If this fails, ensure:
 1. Ollama is running: `sudo systemctl start ollama`
 2. The container was started with `--network=host`
-3. The volume doesn't contain old cached settings (reset with `podman volume rm open-webui` if needed)
+3. The `OLLAMA_BASE_URL` environment variable is set correctly: `podman exec open-webui env | grep OLLAMA`
+4. The volume doesn't contain old cached settings (reset with `podman volume rm open-webui` if needed)
 
 ## 4. Managing the Container
 
@@ -506,16 +509,18 @@ df -h
 sudo lsof -i :8080
 ```
 
-Either stop the conflicting service or modify the port mapping in your `podman run` command. For example, to use port 3000 instead:
+Either stop the conflicting service or configure Open Web UI to use a different port. With `--network=host`, you change the port via an environment variable:
 
 ```bash
 podman stop open-webui
 podman rm open-webui
 podman run -d \
-  --name open-webui \
-  -p 3000:8080 \
+  --network=host \
+  -e PORT=3000 \
   -v open-webui:/app/backend/data \
-  --add-host=host.docker.internal:host-gateway \
+  -e OLLAMA_BASE_URL=http://127.0.0.1:11434 \
+  --name open-webui \
+  --restart always \
   ghcr.io/open-webui/open-webui:main
 ```
 
@@ -633,4 +638,4 @@ sudo dnf update podman
 
 ---
 
-**Last Updated**: March 2026
+**Last Updated**: May 2026

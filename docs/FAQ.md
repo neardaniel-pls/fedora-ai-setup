@@ -32,7 +32,7 @@ The guide includes complete uninstallation instructions for removing containers,
 ## Troubleshooting
 
 ### Container won't start
-- Check port 8080 isn't already in use: `ss -tlnp | grep 8080`
+- Check port 8080 isn't already in use: `sudo lsof -i :8080`
 - View container logs: `podman logs <container-name>`
 - Ensure Podman is running correctly: `podman info`
 
