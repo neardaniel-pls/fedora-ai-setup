@@ -16,19 +16,20 @@ sudo dnf install podman
 curl -fsSL https://ollama.com/install.sh | sh
 ```
 
-### Pull a Model
-```bash
-ollama pull llama3
-```
-
 ### Run Open Web UI
 ```bash
-podman run -d -p 8080:8080 \
-  --add-host=host.containers.internal:host-gateway \
+podman run -d \
+  --network=host \
   -v open-webui:/app/backend/data \
+  -e OLLAMA_BASE_URL=http://127.0.0.1:11434 \
   --name open-webui \
   --restart always \
   ghcr.io/open-webui/open-webui:main
+```
+
+### Pull a Model
+```bash
+ollama run hf.co/unsloth/Qwen3-4B-Thinking-2507-GGUF:Q6_K
 ```
 
 ### Access

@@ -16,14 +16,14 @@ sudo dnf install podman
 ```
 
 ### Step 2: Follow the Guide
-Read the [Open Web UI Setup Guide](guides/open-web-ui-guide.md) for complete step-by-step instructions.
+Read the [Open Web UI Setup Guide](../setup/open-web-ui-guide.md) for complete step-by-step instructions.
 
 ### Step 3: Access
 Open http://localhost:8080 in your browser.
 
 ## Next Steps
 
-- [Open Web UI Guide](guides/open-web-ui-guide.md) — Full setup instructions
+- [Open Web UI Guide](../setup/open-web-ui-guide.md) — Full setup instructions
 - [FAQ](FAQ.md) — Common questions
 
 ---
