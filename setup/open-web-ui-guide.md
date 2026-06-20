@@ -11,7 +11,6 @@ The setup involves:
 - Installing Ollama to run models locally
 - Pulling and running models from Hugging Face
 - (Optional) Disabling Ollama autostart and managing it manually
-- (Optional) Creating a systemd service for automatic startup
 
 ## 2. Dependencies
 
@@ -62,7 +61,7 @@ podman run -d \
 - `-v open-webui:/app/backend/data`: Creates a Podman volume named `open-webui` to persist application data. This is crucial for retaining your settings and chat history
 - `-e OLLAMA_BASE_URL=http://127.0.0.1:11434`: Explicitly sets the Ollama API URL. With `--network=host`, the container can reach Ollama directly at `127.0.0.1:11434`
 - `--name open-webui`: Assigns a memorable name to the container
-- `--restart always`: Automatically restarts the container if it crashes or when the system reboots
+- `--restart always`: Automatically restarts the container if it crashes. **Note:** For a rootless Podman container this only takes effect while your user session is active — it does **not** restart the container after a full system reboot on its own. To start the container on boot, wrap it in a systemd user service (e.g., a Podman Quadlet unit)
 
 > **Note for Fedora:** SELinux is enabled by default. Named volumes (used above) work automatically. If you later use bind mounts (e.g., `-v /home/user/data:/app/data`), append `:z` to the mount: `-v /home/user/data:/app/data:z`
 
@@ -88,6 +87,8 @@ http://localhost:8080
 ```
 
 You should see the Open Web UI interface, where you can create your first admin account.
+
+> **Security note — `--network=host` exposes the UI on your network:** Because the container uses host networking, Open Web UI binds to `0.0.0.0:8080` by default. This means it is reachable not only from `localhost`, but from **other devices on your local network** (and anyone who can reach the host's IP). Your chat history and admin account would be accessible to them. To restrict access, rely on firewalld, which blocks port 8080 by default — simply do **not** open it (check with `sudo firewall-cmd --list-ports`; if 8080 is listed, close it with `sudo firewall-cmd --remove-port=8080/tcp`). Alternatively, avoid host networking and bind to localhost only with `-p 127.0.0.1:8080:8080` — note that the latter requires a different Ollama connectivity setup than the rest of this guide.
 
 ### Step 5: Install Ollama for Local Models
 
@@ -278,7 +279,7 @@ podman run --rm \
 ```bash
 sudo systemctl stop ollama
 mkdir -p ~/backups/ollama
-tar czf ~/backups/ollama/ollama-backup-$(date +%Y%m%d-%H%M%S).tar.gz ~/.ollama
+tar czf ~/backups/ollama/ollama-backup-$(date +%Y%m%d-%H%M%S).tar.gz -C ~ .ollama
 sudo systemctl start ollama
 ```
 
@@ -336,10 +337,16 @@ Replace `<timestamp>` with your backup file's timestamp.
 ```bash
 sudo systemctl stop ollama
 mv ~/.ollama ~/.ollama.old
-tar xzf ~/backups/ollama/ollama-backup-<timestamp>.tar.gz -C ~/
+tar xzf ~/backups/ollama/ollama-backup-<timestamp>.tar.gz -C ~
 sudo systemctl start ollama
 ollama list
-rm -rf ~/.ollama.old
+
+# Only discard the old data once the restore is confirmed (don't delete it on a failed extraction)
+if [ -d ~/.ollama ] && [ -n "$(ls -A ~/.ollama 2>/dev/null)" ]; then
+  rm -rf ~/.ollama.old
+else
+  echo "Restore check failed — keeping ~/.ollama.old as a fallback. Do not delete it until you have recovered your models."
+fi
 ```
 
 ### 6.5 Best Practices
@@ -623,18 +630,25 @@ sudo restorecon -R -v <mountPoint>
 
 **Symptom**: `podman run` fails immediately with permission-related errors.
 
-**Solution**: This may be related to SELinux or user namespaces. Try:
+**Solution**: This is usually an SELinux or user-namespace issue. Apply the targeted fixes first:
 
 ```bash
-# Check SELinux status
+# Check SELinux status (diagnostic only — do not leave SELinux disabled)
 getenforce
 
-# If Enforcing and causing issues, you can temporarily set to Permissive for testing
-sudo setenforce 0
+# Ensure Podman and its SELinux policies are up to date (often resolves policy bugs)
+sudo dnf update podman container-selinux
 
-# Or better, ensure your system is updated and Podman is configured correctly
-sudo dnf update podman
+# Relabel the Open Web UI volume if SELinux labels are wrong
+podman volume inspect open-webui   # note the Mountpoint path
+sudo restorecon -R -v <mountPoint>
 ```
+
+If you used a bind mount, make sure it carries the `:z` suffix so SELinux labels it correctly
+(see the SELinux note in Step 3). Avoid disabling SELinux. Only as a **last-resort, temporary
+diagnostic** you can run `sudo setenforce 0` to confirm SELinux is the cause, then immediately
+re-enable protection with `sudo setenforce 1` and apply the correct fix above — never leave the
+system in permissive mode as a permanent workaround.
 
 ---
 
