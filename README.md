@@ -67,7 +67,7 @@ Guides and references
 Get Open Web UI running in 10 minutes
 
 ### [Guides](docs/guides/)
-- [Open Web UI Guide](docs/guides/open-web-ui-guide.md) — Quick reference
+- [Open Web UI Guide](docs/guides/open-web-ui-guide.md) — Points to the full setup guide
 
 ### [FAQ](docs/FAQ.md)
 Common questions and troubleshooting
